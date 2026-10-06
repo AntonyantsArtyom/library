@@ -1,12 +1,23 @@
 import { Col, Input, Row, Select, theme } from "antd";
 
-export const Filter = () => {
+interface FilterProps {
+  title: string;
+  author: string;
+  genres: string[];
+
+  onTitleChange: (value: string) => void;
+  onAuthorChange: (value: string) => void;
+  onGenresChange: (value: string[]) => void;
+}
+
+export const Filter = ({ title, author, genres, onTitleChange, onAuthorChange, onGenresChange }: FilterProps) => {
   const { token } = theme.useToken();
 
   return (
     <Row
       style={{
-        width: token.screenMD,
+        width: "100%",
+        maxWidth: token.screenMD,
         margin: "0 auto",
         padding: "var(--ant-padding-md) 0",
         position: "sticky",
@@ -17,20 +28,25 @@ export const Filter = () => {
       gutter={[16, 16]}
     >
       <Col xs={24} sm={8}>
-        <Input placeholder="Название" />
+        <Input placeholder="Название" value={title} onChange={(event) => onTitleChange(event.target.value)} allowClear />
       </Col>
+
       <Col xs={24} sm={8}>
-        <Input placeholder="Автор" />
+        <Input placeholder="Автор" value={author} onChange={(event) => onAuthorChange(event.target.value)} allowClear />
       </Col>
+
       <Col xs={24} sm={8}>
         <Select
           mode="multiple"
           style={{ width: "100%" }}
           placeholder="Жанр"
+          value={genres}
+          onChange={onGenresChange}
+          allowClear
           options={[
-            { value: "ужасы", label: "ужасы" },
-            { value: "романтика", label: "романтика" },
-            { value: "приключение", label: "приключение" },
+            { value: "ужасы", label: "Ужасы" },
+            { value: "романтика", label: "Романтика" },
+            { value: "приключение", label: "Приключение" },
           ]}
         />
       </Col>
