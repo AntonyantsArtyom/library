@@ -47,6 +47,7 @@ export const Filter = ({ title, author, genres, onTitleChange, onAuthorChange, o
             { value: "ужасы", label: "Ужасы" },
             { value: "романтика", label: "Романтика" },
             { value: "приключение", label: "Приключение" },
+            { value: "фантастика", label: "Фантастика" },
           ]}
         />
       </Col>

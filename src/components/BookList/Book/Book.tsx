@@ -9,7 +9,21 @@ interface BookProps {
 
 export const Book = ({ title, author, cover, file }: BookProps) => {
   return (
-    <Card hoverable style={{ width: "100%" }} cover={<img draggable={false} src={cover} alt={title} />}>
+    <Card
+      hoverable
+      style={{ width: "100%" }}
+      cover={
+        <img
+          draggable={false}
+          src={cover}
+          alt={title}
+          style={{
+            height: 320,
+            objectFit: "cover",
+          }}
+        />
+      }
+    >
       <Card.Meta title={title} description={author} />
 
       <a href={file} download>

@@ -1,7 +1,16 @@
-import { useEffect, useState } from "react";
-import { Col, Empty, Pagination, Row, theme } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { Col, Empty, Pagination, Row, Spin, theme } from "antd";
 
 import { Book } from "./Book/Book";
+
+interface BookType {
+  id: number;
+  title: string;
+  author: string;
+  genres: string[];
+  cover: string;
+  file: string;
+}
 
 interface BookListProps {
   title: string;
@@ -9,57 +18,40 @@ interface BookListProps {
   genres: string[];
 }
 
-const books = [
-  {
-    id: 1,
-    title: "Война и мир",
-    author: "Лев Толстой",
-    genres: ["романтика"],
-    cover: "/covers/war-and-peace.jpg",
-    file: "/books/war-and-peace.epub",
-  },
-  {
-    id: 2,
-    title: "Преступление и наказание",
-    author: "Фёдор Достоевский",
-    genres: ["приключение"],
-    cover: "/covers/crime-and-punishment.jpg",
-    file: "/books/crime-and-punishment.epub",
-  },
-  {
-    id: 3,
-    title: "Мастер и Маргарита",
-    author: "Михаил Булгаков",
-    genres: ["романтика", "приключение"],
-    cover: "/covers/master-and-margarita.jpg",
-    file: "/books/master-and-margarita.epub",
-  },
-  {
-    id: 4,
-    title: "Дракула",
-    author: "Брэм Стокер",
-    genres: ["ужасы"],
-    cover: "/covers/dracula.jpg",
-    file: "/books/dracula.epub",
-  },
-];
-
 const PAGE_SIZE = 9;
 
 export const BookList = ({ title, author, genres }: BookListProps) => {
   const { token } = theme.useToken();
 
+  const [books, setBooks] = useState<BookType[]>([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
-  const filteredBooks = books.filter((book) => {
-    const titleMatch = book.title.toLowerCase().includes(title.toLowerCase());
+  useEffect(() => {
+    fetch("/data/books.json")
+      .then((response) => response.json())
+      .then((data) => {
+        setBooks(data);
+      })
+      .catch((error) => {
+        console.error("Ошибка загрузки книг:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
-    const authorMatch = book.author.toLowerCase().includes(author.toLowerCase());
+  const filteredBooks = useMemo(() => {
+    return books.filter((book) => {
+      const titleMatch = book.title.toLowerCase().includes(title.toLowerCase());
 
-    const genresMatch = genres.length === 0 || genres.some((genre) => book.genres.includes(genre));
+      const authorMatch = book.author.toLowerCase().includes(author.toLowerCase());
 
-    return titleMatch && authorMatch && genresMatch;
-  });
+      const genresMatch = genres.length === 0 || genres.some((genre) => book.genres.includes(genre));
+
+      return titleMatch && authorMatch && genresMatch;
+    });
+  }, [books, title, author, genres]);
 
   useEffect(() => {
     setPage(1);
@@ -68,6 +60,14 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
   const start = (page - 1) * PAGE_SIZE;
 
   const visibleBooks = filteredBooks.slice(start, start + PAGE_SIZE);
+
+  if (loading) {
+    return (
+      <Row justify="center">
+        <Spin />
+      </Row>
+    );
+  }
 
   return (
     <>
