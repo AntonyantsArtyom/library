@@ -28,7 +28,7 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/data/books.json")
+    fetch(`${import.meta.env.BASE_URL}data/books.json`)
       .then((response) => response.json())
       .then((data) => {
         setBooks(data);
@@ -82,7 +82,12 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
         {visibleBooks.length > 0 ? (
           visibleBooks.map((book) => (
             <Col key={book.id} xs={24} sm={12} md={8}>
-              <Book title={book.title} author={book.author} cover={book.cover} file={book.file} />
+              <Book
+                title={book.title}
+                author={book.author}
+                cover={`${import.meta.env.BASE_URL}${book.cover}`}
+                file={`${import.meta.env.BASE_URL}${book.file}`}
+              />
             </Col>
           ))
         ) : (

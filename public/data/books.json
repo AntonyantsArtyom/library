@@ -4,95 +4,95 @@
     "title": "Ночной дом",
     "author": "Алексей Ветров",
     "genres": ["ужасы"],
-    "cover": "/covers/night-house.svg",
-    "file": "/books/night-house.epub"
+    "cover": "covers/night-house.svg",
+    "file": "books/night-house.epub"
   },
   {
     "id": 2,
     "title": "Последний поезд",
     "author": "Марина Орлова",
     "genres": ["приключение"],
-    "cover": "/covers/last-train.svg",
-    "file": "/books/last-train.epub"
+    "cover": "covers/last-train.svg",
+    "file": "books/last-train.epub"
   },
   {
     "id": 3,
     "title": "Письма к морю",
     "author": "Елена Соколова",
     "genres": ["романтика"],
-    "cover": "/covers/letters-to-the-sea.svg",
-    "file": "/books/letters-to-the-sea.epub"
+    "cover": "covers/letters-to-the-sea.svg",
+    "file": "books/letters-to-the-sea.epub"
   },
   {
     "id": 4,
     "title": "Город без часов",
     "author": "Илья Северин",
     "genres": ["фантастика", "приключение"],
-    "cover": "/covers/city-without-clocks.svg",
-    "file": "/books/city-without-clocks.epub"
+    "cover": "covers/city-without-clocks.svg",
+    "file": "books/city-without-clocks.epub"
   },
   {
     "id": 5,
     "title": "Тень над маяком",
     "author": "Анна Миронова",
     "genres": ["ужасы", "приключение"],
-    "cover": "/covers/shadow-over-lighthouse.svg",
-    "file": "/books/shadow-over-lighthouse.epub"
+    "cover": "covers/shadow-over-lighthouse.svg",
+    "file": "books/shadow-over-lighthouse.epub"
   },
   {
     "id": 6,
     "title": "Звёзды над пустыней",
     "author": "Дмитрий Ларин",
     "genres": ["приключение", "романтика"],
-    "cover": "/covers/stars-over-desert.svg",
-    "file": "/books/stars-over-desert.epub"
+    "cover": "covers/stars-over-desert.svg",
+    "file": "books/stars-over-desert.epub"
   },
   {
     "id": 7,
     "title": "Лабиринт памяти",
     "author": "Софья Белова",
     "genres": ["фантастика"],
-    "cover": "/covers/memory-maze.svg",
-    "file": "/books/memory-maze.epub"
+    "cover": "covers/memory-maze.svg",
+    "file": "books/memory-maze.epub"
   },
   {
     "id": 8,
     "title": "Зимний сад",
     "author": "Виктор Романов",
     "genres": ["романтика"],
-    "cover": "/covers/winter-garden.svg",
-    "file": "/books/winter-garden.epub"
+    "cover": "covers/winter-garden.svg",
+    "file": "books/winter-garden.epub"
   },
   {
     "id": 9,
     "title": "Шёпот под землёй",
     "author": "Олег Кравцов",
     "genres": ["ужасы"],
-    "cover": "/covers/whisper-underground.svg",
-    "file": "/books/whisper-underground.epub"
+    "cover": "covers/whisper-underground.svg",
+    "file": "books/whisper-underground.epub"
   },
   {
     "id": 10,
     "title": "Экспедиция Ноль",
     "author": "Никита Серов",
     "genres": ["фантастика", "приключение"],
-    "cover": "/covers/expedition-zero.svg",
-    "file": "/books/expedition-zero.epub"
+    "cover": "covers/expedition-zero.svg",
+    "file": "books/expedition-zero.epub"
   },
   {
     "id": 11,
     "title": "Красная комната",
     "author": "Екатерина Лебедева",
     "genres": ["ужасы", "романтика"],
-    "cover": "/covers/red-room.svg",
-    "file": "/books/red-room.epub"
+    "cover": "covers/red-room.svg",
+    "file": "books/red-room.epub"
   },
   {
     "id": 12,
     "title": "За краем карты",
     "author": "Павел Власов",
     "genres": ["приключение", "фантастика"],
-    "cover": "/covers/beyond-the-map.svg",
-    "file": "/books/beyond-the-map.epub"
+    "cover": "covers/beyond-the-map.svg",
+    "file": "books/beyond-the-map.epub"
   }
 ]
