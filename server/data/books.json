@@ -1,16 +1,5 @@
 [
   {
-    "id": 2,
-    "title": "Последний поезд",
-    "author": "Марина Орлова",
-    "genres": [
-      "приключение"
-    ],
-    "cover": "uploads/covers/last-train.svg",
-    "file": "uploads/books/last-train.epub",
-    "downloadCount": 0
-  },
-  {
     "id": 3,
     "title": "Письма к морю",
     "author": "Елена Соколова",
@@ -19,7 +8,7 @@
     ],
     "cover": "uploads/covers/letters-to-the-sea.svg",
     "file": "uploads/books/letters-to-the-sea.epub",
-    "downloadCount": 0
+    "downloadCount": 1
   },
   {
     "id": 4,

@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+
+import { Layout, Menu, Typography } from "antd";
+import { BookOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from "@ant-design/icons";
 
 import { BookList } from "./components/BookList/BookList";
 import { Filter } from "./components/Filter/Filter";
@@ -9,38 +12,103 @@ import { AdminRatings } from "./components/Admin/AdminRatings";
 
 import "./index.css";
 
+const { Header, Content } = Layout;
+
 function MainApp() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [genres, setGenres] = useState<string[]>([]);
 
   return (
-    <div>
+    <>
       <Filter title={title} author={author} genres={genres} onTitleChange={setTitle} onAuthorChange={setAuthor} onGenresChange={setGenres} />
 
       <BookList title={title} author={author} genres={genres} />
-    </div>
+    </>
   );
 }
 
-function App() {
-  return (
-    <Router>
-      <div style={{ padding: "var(--ant-padding-md)" }}>
-        <div style={{ marginBottom: "var(--ant-padding-lg)", display: "flex", justifyContent: "center", gap: "var(--ant-padding-md)" }}>
-          <Link to="/">Библиотека</Link>
-          <Link to="/admin/catalog">Админка: Каталог</Link>
-          <Link to="/admin/manage">Админка: Управление</Link>
-          <Link to="/admin/ratings">Админка: Рейтинг</Link>
-        </div>
+function AppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const menuItems = [
+    {
+      key: "/",
+      icon: <BookOutlined />,
+      label: "Библиотека",
+    },
+    {
+      key: "/admin/catalog",
+      icon: <AppstoreOutlined />,
+      label: "Каталог",
+    },
+    {
+      key: "/admin/manage",
+      icon: <SettingOutlined />,
+      label: "Управление",
+    },
+    {
+      key: "/admin/ratings",
+      icon: <TrophyOutlined />,
+      label: "Рейтинг",
+    },
+  ];
+
+  return (
+    <Layout style={{ minHeight: "100vh" }}>
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "0 32px",
+        }}
+      >
+        <Typography.Title
+          level={4}
+          style={{
+            color: "white",
+            margin: 0,
+            marginRight: 40,
+            whiteSpace: "nowrap",
+          }}
+        >
+          EPUB Library
+        </Typography.Title>
+
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+          onClick={({ key }) => navigate(key)}
+          style={{
+            flex: 1,
+            minWidth: 0,
+          }}
+        />
+      </Header>
+
+      <Content
+        style={{
+          padding: "24px",
+        }}
+      >
         <Routes>
           <Route path="/" element={<MainApp />} />
           <Route path="/admin/catalog" element={<AdminCatalog />} />
           <Route path="/admin/manage" element={<AdminManage />} />
           <Route path="/admin/ratings" element={<AdminRatings />} />
         </Routes>
-      </div>
+      </Content>
+    </Layout>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
