@@ -10,6 +10,7 @@ interface BookType {
   genres: string[];
   cover: string;
   file: string;
+  downloadCount: number;
 }
 
 interface BookListProps {
@@ -28,7 +29,7 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}data/books.json`)
+    fetch("http://localhost:3000/api/books")
       .then((response) => response.json())
       .then((data) => {
         setBooks(data);
@@ -83,10 +84,11 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
           visibleBooks.map((book) => (
             <Col key={book.id} xs={24} sm={12} md={8}>
               <Book
+                id={book.id}
                 title={book.title}
                 author={book.author}
-                cover={`${import.meta.env.BASE_URL}${book.cover}`}
-                file={`${import.meta.env.BASE_URL}${book.file}`}
+                cover={`http://localhost:3000/${book.cover}`}
+                file={`http://localhost:3000/${book.file}`}
               />
             </Col>
           ))

@@ -1,0 +1,129 @@
+[
+  {
+    "id": 2,
+    "title": "Последний поезд",
+    "author": "Марина Орлова",
+    "genres": [
+      "приключение"
+    ],
+    "cover": "uploads/covers/last-train.svg",
+    "file": "uploads/books/last-train.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 3,
+    "title": "Письма к морю",
+    "author": "Елена Соколова",
+    "genres": [
+      "романтика"
+    ],
+    "cover": "uploads/covers/letters-to-the-sea.svg",
+    "file": "uploads/books/letters-to-the-sea.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 4,
+    "title": "Город без часов",
+    "author": "Илья Северин",
+    "genres": [
+      "фантастика",
+      "приключение"
+    ],
+    "cover": "uploads/covers/city-without-clocks.svg",
+    "file": "uploads/books/city-without-clocks.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 5,
+    "title": "Тень над маяком",
+    "author": "Анна Миронова",
+    "genres": [
+      "ужасы",
+      "приключение"
+    ],
+    "cover": "uploads/covers/shadow-over-lighthouse.svg",
+    "file": "uploads/books/shadow-over-lighthouse.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 6,
+    "title": "Звёзды над пустыней",
+    "author": "Дмитрий Ларин",
+    "genres": [
+      "приключение",
+      "романтика"
+    ],
+    "cover": "uploads/covers/stars-over-desert.svg",
+    "file": "uploads/books/stars-over-desert.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 7,
+    "title": "Лабиринт памяти",
+    "author": "Софья Белова",
+    "genres": [
+      "фантастика"
+    ],
+    "cover": "uploads/covers/memory-maze.svg",
+    "file": "uploads/books/memory-maze.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 8,
+    "title": "Зимний сад",
+    "author": "Виктор Романов",
+    "genres": [
+      "романтика"
+    ],
+    "cover": "uploads/covers/winter-garden.svg",
+    "file": "uploads/books/winter-garden.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 9,
+    "title": "Шёпот под землёй",
+    "author": "Олег Кравцов",
+    "genres": [
+      "ужасы"
+    ],
+    "cover": "uploads/covers/whisper-underground.svg",
+    "file": "uploads/books/whisper-underground.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 10,
+    "title": "Экспедиция Ноль",
+    "author": "Никита Серов",
+    "genres": [
+      "фантастика",
+      "приключение"
+    ],
+    "cover": "uploads/covers/expedition-zero.svg",
+    "file": "uploads/books/expedition-zero.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 11,
+    "title": "Красная комната",
+    "author": "Екатерина Лебедева",
+    "genres": [
+      "ужасы",
+      "романтика"
+    ],
+    "cover": "uploads/covers/red-room.svg",
+    "file": "uploads/books/red-room.epub",
+    "downloadCount": 0
+  },
+  {
+    "id": 12,
+    "title": "За краем карты",
+    "author": "Павел Власов",
+    "genres": [
+      "приключение",
+      "фантастика"
+    ],
+    "cover": "uploads/covers/beyond-the-map.svg",
+    "file": "uploads/books/beyond-the-map.epub",
+    "downloadCount": 0
+  }
+]

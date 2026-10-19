@@ -1,13 +1,39 @@
-import { Button, Card } from "antd";
+import { Button, Card, message } from "antd";
 
 interface BookProps {
+  id: number;
   title: string;
   author: string;
   cover: string;
   file: string;
 }
 
-export const Book = ({ title, author, cover, file }: BookProps) => {
+export const Book = ({ id, title, author, cover, file }: BookProps) => {
+  const handleDownload = async () => {
+    try {
+      await fetch(`http://localhost:3000/api/books/${id}/download`, {
+        method: "POST",
+      });
+
+      const link = document.createElement("a");
+      link.href = file;
+      link.download = file.split("/").pop() || "book.epub";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      message.success("Загрузка началась");
+    } catch (error) {
+      console.error("Error tracking download:", error);
+      const link = document.createElement("a");
+      link.href = file;
+      link.download = file.split("/").pop() || "book.epub";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <Card
       hoverable
@@ -26,17 +52,16 @@ export const Book = ({ title, author, cover, file }: BookProps) => {
     >
       <Card.Meta title={title} description={author} />
 
-      <a href={file} download>
-        <Button
-          type="primary"
-          style={{
-            width: "100%",
-            marginTop: "var(--ant-margin-xs)",
-          }}
-        >
-          Скачать
-        </Button>
-      </a>
+      <Button
+        type="primary"
+        onClick={handleDownload}
+        style={{
+          width: "100%",
+          marginTop: "var(--ant-margin-xs)",
+        }}
+      >
+        Скачать
+      </Button>
     </Card>
   );
 };
