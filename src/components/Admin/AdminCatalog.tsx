@@ -20,7 +20,7 @@ export const AdminCatalog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/books")
+    fetch("http://129.101.112.151:3000/api/books")
       .then((response) => response.json())
       .then((data) => {
         setBooks(data);
@@ -60,13 +60,7 @@ export const AdminCatalog = () => {
       title: "Обложка",
       dataIndex: "cover",
       key: "cover",
-      render: (cover: string) => (
-        <img
-          src={`http://localhost:3000/${cover}`}
-          alt="Обложка"
-          style={{ width: 50, height: 75, objectFit: "cover" }}
-        />
-      ),
+      render: (cover: string) => <img src={`http://129.101.112.151:3000/${cover}`} alt="Обложка" style={{ width: 50, height: 75, objectFit: "cover" }} />,
     },
     {
       title: "Файл",

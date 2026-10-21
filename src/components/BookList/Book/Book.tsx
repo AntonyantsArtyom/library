@@ -11,7 +11,7 @@ interface BookProps {
 export const Book = ({ id, title, author, cover, file }: BookProps) => {
   const handleDownload = async () => {
     try {
-      await fetch(`http://localhost:3000/api/books/${id}/download`, {
+      await fetch(`http://129.101.112.151:3000/api/books/${id}/download`, {
         method: "POST",
       });
 

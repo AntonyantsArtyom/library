@@ -29,7 +29,7 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/books")
+    fetch("http://129.101.112.151:3000/api/books")
       .then((response) => response.json())
       .then((data) => {
         setBooks(data);
@@ -87,8 +87,8 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
                 id={book.id}
                 title={book.title}
                 author={book.author}
-                cover={`http://localhost:3000/${book.cover}`}
-                file={`http://localhost:3000/${book.file}`}
+                cover={`http://129.101.112.151:3000/${book.cover}`}
+                file={`http://129.101.112.151:3000/${book.file}`}
               />
             </Col>
           ))

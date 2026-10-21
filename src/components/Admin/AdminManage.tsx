@@ -27,7 +27,7 @@ export const AdminManage = () => {
   const [bookFile, setBookFile] = useState<File | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/books")
+    fetch("http://129.101.112.151:3000/api/books")
       .then((response) => response.json())
       .then((data) => {
         setBooks(data);
@@ -56,7 +56,7 @@ export const AdminManage = () => {
     formData.append("file", bookFile);
 
     try {
-      const response = await fetch("http://localhost:3000/api/books", {
+      const response = await fetch("http://129.101.112.151:3000/api/books", {
         method: "POST",
         body: formData,
       });
@@ -82,7 +82,7 @@ export const AdminManage = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/books/${id}`, {
+      const response = await fetch(`http://129.101.112.151:3000/api/books/${id}`, {
         method: "DELETE",
       });
 
@@ -127,7 +127,7 @@ export const AdminManage = () => {
       key: "cover",
       render: (cover: string) => (
         <img
-          src={`http://localhost:3000/${cover}`}
+          src={`http://129.101.112.151:3000/${cover}`}
           alt="Обложка"
           style={{ width: 50, height: 75, objectFit: "cover" }}
           onError={(e) => {
@@ -240,27 +240,15 @@ export const AdminManage = () => {
         width={600}
       >
         <Form form={form} layout="vertical" onFinish={handleAdd}>
-          <Form.Item
-            label="Название"
-            name="title"
-            rules={[{ required: true, message: "Пожалуйста, введите название книги" }]}
-          >
+          <Form.Item label="Название" name="title" rules={[{ required: true, message: "Пожалуйста, введите название книги" }]}>
             <Input placeholder="Название книги" />
           </Form.Item>
 
-          <Form.Item
-            label="Автор"
-            name="author"
-            rules={[{ required: true, message: "Пожалуйста, введите автора" }]}
-          >
+          <Form.Item label="Автор" name="author" rules={[{ required: true, message: "Пожалуйста, введите автора" }]}>
             <Input placeholder="Автор" />
           </Form.Item>
 
-          <Form.Item
-            label="Жанры"
-            name="genres"
-            rules={[{ required: true, message: "Пожалуйста, выберите жанры" }]}
-          >
+          <Form.Item label="Жанры" name="genres" rules={[{ required: true, message: "Пожалуйста, выберите жанры" }]}>
             <Select
               mode="multiple"
               placeholder="Выберите жанры"
