@@ -1,4 +1,5 @@
 import { Button, Card, message } from "antd";
+import { API_BASE } from "../../../api";
 
 interface BookProps {
   id: number;
@@ -11,7 +12,7 @@ interface BookProps {
 export const Book = ({ id, title, author, cover, file }: BookProps) => {
   const handleDownload = async () => {
     try {
-      await fetch(`http://129.101.112.151:3000/api/books/${id}/download`, {
+      await fetch(`${API_BASE}/api/books/${id}/download`, {
         method: "POST",
       });
 

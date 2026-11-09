@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
-import { Layout, Menu, Typography } from "antd";
-import { BookOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined } from "@ant-design/icons";
+import { Layout, Menu, Typography, Button } from "antd";
+import { BookOutlined, AppstoreOutlined, SettingOutlined, TrophyOutlined, FileTextOutlined, LogoutOutlined } from "@ant-design/icons";
 
 import { BookList } from "./components/BookList/BookList";
 import { Filter } from "./components/Filter/Filter";
-import { AdminCatalog } from "./components/Admin/AdminCatalog";
-import { AdminManage } from "./components/Admin/AdminManage";
-import { AdminRatings } from "./components/Admin/AdminRatings";
+import { AdminCatalog, AdminManage, AdminRatings, AdminLogs, ProtectedRoute } from "./components/Admin";
+import { AUTH_EVENT, getAdminPassword, setAdminSession } from "./api";
 
 import "./index.css";
 
@@ -31,6 +30,18 @@ function MainApp() {
 function AppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isAdmin, setIsAdmin] = useState(() => Boolean(getAdminPassword()));
+
+  useEffect(() => {
+    const handleAuthChange = () => setIsAdmin(Boolean(getAdminPassword()));
+    window.addEventListener(AUTH_EVENT, handleAuthChange);
+    return () => window.removeEventListener(AUTH_EVENT, handleAuthChange);
+  }, []);
+
+  const handleLogout = () => {
+    setAdminSession(null);
+    navigate("/");
+  };
 
   const menuItems = [
     {
@@ -52,6 +63,11 @@ function AppContent() {
       key: "/admin/ratings",
       icon: <TrophyOutlined />,
       label: "Рейтинг",
+    },
+    {
+      key: "/admin/logs",
+      icon: <FileTextOutlined />,
+      label: "Журнал",
     },
   ];
 
@@ -87,6 +103,17 @@ function AppContent() {
             minWidth: 0,
           }}
         />
+
+        {isAdmin && (
+          <Button
+            type="text"
+            icon={<LogoutOutlined />}
+            onClick={handleLogout}
+            style={{ color: "white", marginLeft: 16 }}
+          >
+            Выйти
+          </Button>
+        )}
       </Header>
 
       <Content
@@ -96,9 +123,12 @@ function AppContent() {
       >
         <Routes>
           <Route path="/" element={<MainApp />} />
-          <Route path="/admin/catalog" element={<AdminCatalog />} />
-          <Route path="/admin/manage" element={<AdminManage />} />
-          <Route path="/admin/ratings" element={<AdminRatings />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/admin/catalog" element={<AdminCatalog />} />
+            <Route path="/admin/manage" element={<AdminManage />} />
+            <Route path="/admin/ratings" element={<AdminRatings />} />
+            <Route path="/admin/logs" element={<AdminLogs />} />
+          </Route>
         </Routes>
       </Content>
     </Layout>

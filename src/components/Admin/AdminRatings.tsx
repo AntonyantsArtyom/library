@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Empty, Row, Space, Spin, Table, Tag, theme } from "antd";
 import { TrophyOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "../../api";
 
 interface BookType {
   id: number;
@@ -21,7 +22,7 @@ export const AdminRatings = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://129.101.112.151:3000/api/books")
+    fetch(`${API_BASE}/api/books`)
       .then((response) => response.json())
       .then((data) => {
         setBooks(data);
@@ -80,7 +81,7 @@ export const AdminRatings = () => {
       title: "Обложка",
       dataIndex: "cover",
       key: "cover",
-      render: (cover: string) => <img src={`http://129.101.112.151:3000/${cover}`} alt="Обложка" style={{ width: 50, height: 75, objectFit: "cover" }} />,
+      render: (cover: string) => <img src={`${API_BASE}/${cover}`} alt="Обложка" style={{ width: 50, height: 75, objectFit: "cover" }} />,
     },
     {
       title: "Скачиваний",

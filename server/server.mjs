@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3000;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 
 // Middleware
 app.use(cors());
@@ -20,8 +21,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 const coversDir = path.join(__dirname, "uploads", "covers");
 const booksDir = path.join(__dirname, "uploads", "books");
 const dataDir = path.join(__dirname, "data");
+const logsDir = path.join(dataDir, "logs");
 
-[coversDir, booksDir, dataDir].forEach((dir) => {
+[coversDir, booksDir, dataDir, logsDir].forEach((dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -63,11 +65,92 @@ const writeBooksData = (books) => {
   fs.writeFileSync(filePath, JSON.stringify(books, null, 2));
 };
 
+// Action log helpers (txt, xml, json formats)
+const logsJsonFile = path.join(logsDir, "actions.json");
+const logsXmlFile = path.join(logsDir, "actions.xml");
+const logsTxtFile = path.join(logsDir, "actions.txt");
+
+const readLogs = () => {
+  if (!fs.existsSync(logsJsonFile)) {
+    return [];
+  }
+  try {
+    return JSON.parse(fs.readFileSync(logsJsonFile, "utf-8"));
+  } catch {
+    return [];
+  }
+};
+
+const escapeXml = (value) =>
+  String(value).replace(/[<>&'"]/g, (ch) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[ch]);
+
+const writeLogs = (logs) => {
+  fs.writeFileSync(logsJsonFile, JSON.stringify(logs, null, 2));
+
+  const xmlEntries = logs
+    .map(
+      (e) =>
+        `  <entry date="${e.date}" time="${e.time}"><action>${escapeXml(e.action)}</action>${
+          e.details ? `<details>${escapeXml(e.details)}</details>` : ""
+        }</entry>`,
+    )
+    .join("\n");
+  fs.writeFileSync(logsXmlFile, `<?xml version="1.0" encoding="UTF-8"?>\n<log>\n${xmlEntries}\n</log>\n`);
+
+  const txtLines = logs
+    .map((e) => `${e.date} ${e.time} | ${e.action}${e.details ? ` | ${e.details}` : ""}`)
+    .join("\n");
+  fs.writeFileSync(logsTxtFile, txtLines ? `${txtLines}\n` : "");
+};
+
+const logAction = (action, details = "") => {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const entry = {
+    date: `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`,
+    time: `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`,
+    action,
+    details,
+  };
+  const logs = readLogs();
+  logs.push(entry);
+  writeLogs(logs);
+};
+
+// Admin auth middleware
+const requireAdmin = (req, res, next) => {
+  if (req.headers["x-admin-password"] === ADMIN_PASSWORD) {
+    return next();
+  }
+  res.status(401).json({ error: "Unauthorized" });
+};
+
 // API Routes
 
 // Test route
 app.get("/api/test", (req, res) => {
   res.json({ message: "Test route works" });
+});
+
+// POST admin login
+app.post("/api/auth/login", (req, res) => {
+  const { password } = req.body || {};
+  if (password === ADMIN_PASSWORD) {
+    logAction("Вход администратора");
+    return res.json({ ok: true });
+  }
+  logAction("Неудачная попытка входа", "неверный пароль");
+  res.status(401).json({ error: "Неверный пароль" });
+});
+
+// GET action log (admin only)
+app.get("/api/logs", requireAdmin, (req, res) => {
+  try {
+    const logs = readLogs().slice().reverse();
+    res.json(logs);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to read logs" });
+  }
 });
 
 // GET all books
@@ -101,6 +184,8 @@ app.post("/api/books/:id/download", (req, res) => {
     books[bookIndex].downloadCount += 1;
     writeBooksData(books);
 
+    logAction("Скачивание книги", `«${books[bookIndex].title}» (id: ${id})`);
+
     console.log("Download count updated to:", books[bookIndex].downloadCount);
     res.json({ downloadCount: books[bookIndex].downloadCount });
   } catch (error) {
@@ -124,7 +209,7 @@ app.get("/api/books/:id", (req, res) => {
 });
 
 // POST new book with file uploads
-app.post("/api/books", upload.fields([{ name: "cover" }, { name: "file" }]), (req, res) => {
+app.post("/api/books", requireAdmin, upload.fields([{ name: "cover" }, { name: "file" }]), (req, res) => {
   try {
     const { title, author, genres } = req.body;
 
@@ -152,6 +237,8 @@ app.post("/api/books", upload.fields([{ name: "cover" }, { name: "file" }]), (re
     books.push(newBook);
     writeBooksData(books);
 
+    logAction("Добавление книги", `«${newBook.title}» (id: ${newId})`);
+
     res.status(201).json(newBook);
   } catch (error) {
     console.error("Error creating book:", error);
@@ -160,7 +247,7 @@ app.post("/api/books", upload.fields([{ name: "cover" }, { name: "file" }]), (re
 });
 
 // DELETE book by ID
-app.delete("/api/books/:id", (req, res) => {
+app.delete("/api/books/:id", requireAdmin, (req, res) => {
   try {
     const id = parseInt(req.params.id);
     const books = readBooksData();
@@ -185,6 +272,8 @@ app.delete("/api/books/:id", (req, res) => {
 
     books.splice(bookIndex, 1);
     writeBooksData(books);
+
+    logAction("Удаление книги", `«${book.title}» (id: ${id})`);
 
     res.json({ message: "Book deleted successfully" });
   } catch (error) {

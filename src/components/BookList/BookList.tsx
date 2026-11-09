@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Col, Empty, Pagination, Row, Spin, theme } from "antd";
 
 import { Book } from "./Book/Book";
+import { API_BASE } from "../../api";
 
 interface BookType {
   id: number;
@@ -29,7 +30,7 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://129.101.112.151:3000/api/books")
+    fetch(`${API_BASE}/api/books`)
       .then((response) => response.json())
       .then((data) => {
         setBooks(data);
@@ -87,8 +88,8 @@ export const BookList = ({ title, author, genres }: BookListProps) => {
                 id={book.id}
                 title={book.title}
                 author={book.author}
-                cover={`http://129.101.112.151:3000/${book.cover}`}
-                file={`http://129.101.112.151:3000/${book.file}`}
+                cover={`${API_BASE}/${book.cover}`}
+                file={`${API_BASE}/${book.file}`}
               />
             </Col>
           ))
